@@ -1,0 +1,21 @@
+.paginationButtons {
+  width: 80%;
+  display: flex;
+  list-style: none;
+  justify-content: flex-end;
+}
+.paginationButtons a {
+  cursor: pointer;
+  margin: 3px;
+  padding: 5px;
+  min-width: 35px !important;
+  display: block;
+  text-align: center !important;
+  border-radius: 4px;
+  background-color: gray;
+  color: white;
+}
+
+.activePaginate a {
+  background-color: blue;
+}
