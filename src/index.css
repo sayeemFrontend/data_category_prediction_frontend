@@ -13,7 +13,8 @@ a:hover {
 
 body {
   min-height: 100vh;
-  background-image: url('./assets/my.webp');
+  background-image: url('./assets/bg.jpg');
+  color: white;
   background-size: cover;
   padding: 16px;
   margin: 0 auto;

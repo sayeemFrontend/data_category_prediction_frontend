@@ -3,7 +3,7 @@ import './App.css';
 import LinkForm from './componets/LinkForm';
 import { getData, postData } from './apis/api';
 import { PaginatedItems } from './componets/pagination/Paginate';
-import TableData from './componets/pagination/table/TableData';
+import TableData from './componets/table/TableData';
 
 function App() {
   const [urlResponse, setUrlResponse] = useState('');
@@ -63,9 +63,11 @@ function App() {
             <h2>No Data</h2>
           </center>
         )}
-        <div className='pagination'>
-          <PaginatedItems totalItems={400} onClick={(page) => updateQuery({ ...query, page: page })} itemsPerPage={10} />
-        </div>
+        {!!dataList.length && (
+          <div className='pagination'>
+            <PaginatedItems totalItems={400} onClick={(page) => updateQuery({ ...query, page: page })} itemsPerPage={10} />
+          </div>
+        )}
       </div>
     </>
   );
