@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const base_url = 'http://localhost:8000';
+const base_url = 'http://134.209.97.28:8000';
 const headers = {};
 
 function joinParams(options = {}) {
