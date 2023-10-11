@@ -3,11 +3,13 @@ import './App.css';
 import LinkForm from './componets/LinkForm';
 import { getData, postData } from './apis/api';
 import { PaginatedItems } from './componets/pagination/Paginate';
+import TableData from './componets/pagination/table/TableData';
 
 function App() {
-  const [urlResponse, setUrlResponse] = useState('heolooo');
-  const [historyData, setHistoryData] = useState(null);
-  const [query] = useState({ page: 0, per_page: 10 });
+  const [urlResponse, setUrlResponse] = useState('');
+  const [historyData, setHistoryData] = useState({});
+  const { dataList = [] } = historyData;
+  const [query, updateQuery] = useState({ page: 0, per_page: 10 });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,26 +56,15 @@ function App() {
         </button>
       </div>
       <div className='history-table'>
-        <table>
-          <caption>History</caption>
-          <thead>
-            <tr>
-              <td></td>
-            </tr>
-          </thead>
-          <tbody>
-            {historyData?.length ? (
-              <tr>
-                <td></td>
-              </tr>
-            ) : (
-              <h4>No Data</h4>
-            )}
-          </tbody>
-        </table>
-
+        {dataList.length ? (
+          <TableData data={dataList} headers={[]} />
+        ) : (
+          <center>
+            <h2>No Data</h2>
+          </center>
+        )}
         <div className='pagination'>
-          <PaginatedItems totalItems={400} onClick={(page) => getHistoryData({ ...query, page: page })} itemsPerPage={10} />
+          <PaginatedItems totalItems={400} onClick={(page) => updateQuery({ ...query, page: page })} itemsPerPage={10} />
         </div>
       </div>
     </>
