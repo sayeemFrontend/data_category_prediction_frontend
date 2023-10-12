@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css';
 import LinkForm from './componets/LinkForm';
 import { getData } from './apis/api';
@@ -9,7 +9,8 @@ function App() {
   const [urlResponse, setUrlResponse] = useState('');
   const [historyData, setHistoryData] = useState({});
   const { items = [], total = 0 } = historyData;
-  const [query, updateQuery] = useState({ page: 1, size: 10 });
+  const [query] = useState({ page: 1, size: 10 });
+  const [showTable, setShowTable] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +18,7 @@ function App() {
     const result = await getData({ endpoint: 'scrape/', options: { news_url: inputUrl } });
     if (result) {
       setUrlResponse(result);
+      e.target.elements.url.value = '';
     }
   };
 
@@ -25,6 +27,7 @@ function App() {
     if (result) {
       setHistoryData(result);
     }
+    setShowTable(true);
   };
 
   const handleClick = async (e) => {
@@ -58,23 +61,27 @@ function App() {
           Get History Data
         </button>
       </div>
-      <center>
-        <caption>History</caption>
-      </center>
-      <div className='history-table'>
-        {items.length ? (
-          <TableData data={items} headers={['Url', 'Category']} />
-        ) : (
+      {showTable && (
+        <section>
           <center>
-            <h2>No Data</h2>
+            <caption>History</caption>
           </center>
-        )}
-        {!!items.length && (
-          <div className='pagination'>
-            <PaginatedItems totalItems={total} onClick={(page) => getHistoryData({ ...query, page: page + 1 })} itemsPerPage={query.size} />
+          <div className='history-table'>
+            {items.length ? (
+              <TableData data={items} headers={['Url', 'Category']} />
+            ) : (
+              <center>
+                <h2>No Data</h2>
+              </center>
+            )}
+            {!!items.length && (
+              <div className='pagination'>
+                <PaginatedItems totalItems={total} onClick={(page) => getHistoryData({ ...query, page: page + 1 })} itemsPerPage={query.size} />
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </section>
+      )}
     </>
   );
 }
