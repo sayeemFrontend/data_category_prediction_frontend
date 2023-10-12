@@ -40,9 +40,9 @@ function App() {
     <>
       <h2>How To use</h2>
       <ul className='list-wrapper'>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        <li>1. Input the full URL of the news you want to categorize.</li>
+        <li>2. Hit the "Submit" button and wait as it takes a few seconds to categorize the news.</li>
+        <li>3. To see previous categorization history hit the "Get History Data" button.</li>
       </ul>
       <LinkForm handleSubmit={handleSubmit} />
       <div className='result-category'>
