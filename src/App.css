@@ -13,3 +13,7 @@
   max-width: 700px;
   margin: 0 auto;
 }
+
+caption {
+  margin-bottom: 16px;
+}

@@ -1,28 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import LinkForm from './componets/LinkForm';
-import { getData, postData } from './apis/api';
+import { getData } from './apis/api';
 import { PaginatedItems } from './componets/pagination/Paginate';
 import TableData from './componets/table/TableData';
 
 function App() {
   const [urlResponse, setUrlResponse] = useState('');
   const [historyData, setHistoryData] = useState({});
-  const { dataList = [] } = historyData;
-  const [query, updateQuery] = useState({ page: 0, per_page: 10 });
+  const { items = [], total = 0 } = historyData;
+  const [query, updateQuery] = useState({ page: 1, size: 10 });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const inputUrl = e.target.elements.url.value || '';
-    const result = await postData({ endpoint: '', formData: { url: inputUrl } });
-    console.log(result);
+    const result = await getData({ endpoint: 'scrape/', options: { news_url: inputUrl } });
     if (result) {
       setUrlResponse(result);
     }
   };
 
   const getHistoryData = async (params = {}) => {
-    const result = await getData({ endpoint: '', options: { ...params } });
+    const result = await getData({ endpoint: 'history/', options: { ...params } });
     if (result) {
       setHistoryData(result);
     }
@@ -33,19 +32,23 @@ function App() {
     getHistoryData({ ...query });
   };
 
+  // useEffect(()=>{
+  //   getHistoryData(query)
+  // },[query])
+
   return (
     <>
       <h2>How To use</h2>
       <ul className='list-wrapper'>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
+        <li>1. Input the full URL of the news you want to categorize.</li>
+        <li>2. Hit the "Submit" button and wait as it takes a few seconds to categorize the news.</li>
+        <li>3. To see previous categorization history hit the "Get History Data" button.</li>
       </ul>
       <LinkForm handleSubmit={handleSubmit} />
       <div className='result-category'>
         {urlResponse && (
           <h2>
-            Category: <span>{urlResponse}</span>
+            Category: <span>{urlResponse.category}</span>
           </h2>
         )}
       </div>
@@ -55,17 +58,20 @@ function App() {
           Get History Data
         </button>
       </div>
+      <center>
+        <caption>History</caption>
+      </center>
       <div className='history-table'>
-        {dataList.length ? (
-          <TableData data={dataList} headers={[]} />
+        {items.length ? (
+          <TableData data={items} headers={['Url', 'Category']} />
         ) : (
           <center>
             <h2>No Data</h2>
           </center>
         )}
-        {!!dataList.length && (
+        {!!items.length && (
           <div className='pagination'>
-            <PaginatedItems totalItems={400} onClick={(page) => updateQuery({ ...query, page: page })} itemsPerPage={10} />
+            <PaginatedItems totalItems={total} onClick={(page) => getHistoryData({ ...query, page: page + 1 })} itemsPerPage={query.size} />
           </div>
         )}
       </div>

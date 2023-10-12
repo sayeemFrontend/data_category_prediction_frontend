@@ -3,20 +3,22 @@ import './Table.css';
 export default function TableData({ data = [], headers = [] }) {
   return (
     <table>
-      <caption>History</caption>
       <thead>
         <tr>
           {headers?.map((it, i) => (
-            <td key={i}>{it}</td>
+            <th key={i}>{it}</th>
           ))}
         </tr>
       </thead>
       <tbody>
         {data?.map((item, i) => (
           <tr key={i}>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td>
+              <a href={item.url} target='_blank'>
+                {item.url}
+              </a>
+            </td>
+            <td>{item.category}</td>
           </tr>
         ))}
       </tbody>

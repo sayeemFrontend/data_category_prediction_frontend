@@ -5,7 +5,7 @@ export default function LinkForm({ handleSubmit = () => {} }) {
   return (
     <div className='insert-form'>
       <form onSubmit={handleSubmit}>
-        <input required name='url' type='text' placeholder='insert your api' />
+        <input required name='url' type='text' placeholder='Insert news link' />
         <button className='btn-normal' type='submit'>
           Submit
         </button>
